@@ -1,0 +1,59 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Browse Jobs - Resume Job Matcher{% endblock %}
+
+{% block content %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'main/job.css' %}"/>
+<div class="browse-header">
+    <h1 class="page-title">Available Jobs</h1>
+
+    <form method="get" class="search-form">
+        <input type="text" name="q" value="{{ query }}" placeholder="Search jobs..." class="form-control search-input">
+        <button type="submit" class="btn btn-primary">Search</button>
+        {% if query %}
+            <a href="{% url 'browse_jobs' %}" class="btn btn-secondary">Clear</a>
+        {% endif %}
+    </form>
+</div>
+
+{% if jobs %}
+<div class="job-list">
+    {% for job in jobs %}
+    <div class="job-card">
+        <div class="job-card-header">
+            <div>
+                <h3 class="job-title">{{ job.title }}</h3>
+                <p class="job-meta">{{ job.recruiter.company_name }} • {{ job.department }} • {{ job.location }}</p>
+            </div>
+            <span class="score-badge score-high">Active</span>
+        </div>
+
+        <p class="job-description">{{ job.description|truncatewords:30 }}</p>
+        <div class="skills-list">
+        {% for skill in job.skills_list %}
+          {% if skill %}
+            <span class="skill-tag">{{ skill }}</span>
+          {% endif %}
+        {% endfor %}
+        </div>
+
+        <div class="job-card-footer">
+            <a href="{% url 'view_job' job.id %}" class="btn btn-primary btn-small">View Details</a>
+            <span class="posted-time">Posted {{ job.created_at|timesince }} ago</span>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card text-center no-jobs-card">
+    {% if query %}
+        <p class="form-subtext">No jobs found matching "{{ query }}".</p>
+        <a href="{% url 'browse_jobs' %}" class="btn btn-secondary">View All Jobs</a>
+    {% else %}
+        <p class="form-subtext">No jobs available at the moment. Check back later!</p>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Recruiter Dashboard - Resume Job Matcher{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h1>Recruiter Dashboard</h1>
+    <a href="{% url 'create_job' %}" class="btn btn-primary">+ Post New Job</a>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-number">{{ total_jobs }}</div>
+        <div class="stat-label">Total Jobs Posted</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ active_jobs }}</div>
+        <div class="stat-label">Active Jobs</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ total_matches }}</div>
+        <div class="stat-label">Candidate Matches</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">My Job Postings</h2>
+    </div>
+
+    {% if jobs %}
+        <div class="job-list">
+            {% for job in jobs %}
+            <div class="job-card">
+                <div class="job-card-header">
+                    <div>
+                        <h3 class="job-title">{{ job.title }}</h3>
+                        <p class="job-meta">
+                            {{ job.department }} • {{ job.location }} • {{ job.get_employment_type_display }}
+                        </p>
+                    </div>
+                    <span class="score-badge {% if job.is_active %}score-high{% else %}score-low{% endif %}">
+                        {{ job.is_active|yesno:"Active,Inactive" }}
+                    </span>
+                </div>
+
+                <p class="job-description">{{ job.description|truncatewords:30 }}</p>
+
+                <div class="job-card-actions">
+                    <a href="{% url 'view_job' job.id %}" class="btn btn-primary btn-small">View Details</a>
+                    <a href="{% url 'match_candidates' job.id %}" class="btn btn-success btn-small">Run Matching</a>
+                    <a href="{% url 'edit_job' job.id %}" class="btn btn-secondary btn-small">Edit</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card-center">
+            <p class="text-muted">You haven't posted any jobs yet.</p>
+            <a href="{% url 'create_job' %}" class="btn btn-primary">Post Your First Job</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

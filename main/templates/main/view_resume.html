@@ -1,0 +1,92 @@
+{% extends 'main/base.html' %}
+
+{% block title %}View Resume - Resume Job Matcher{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'main/view.css' %}"/>
+
+<div class="card resume-card">
+    <div class="card-header">
+        <div class="header-flex">
+            <div>
+                <h2 class="card-title">Resume Details</h2>
+                <p class="form-subtext">{{ resume.filename }}</p>
+            </div>
+            <span class="score-badge {% if resume.is_processed %}score-high{% else %}score-medium{% endif %}">
+                {{ resume.is_processed|yesno:"Processed,Pending" }}
+            </span>
+        </div>
+    </div>
+
+    <div class="section candidate-info">
+        <h3 class="section-title">Candidate Information</h3>
+        <p><strong>Name:</strong> {{ resume.applicant.user.get_full_name }}</p>
+        <p><strong>Email:</strong> {{ resume.applicant.user.email }}</p>
+        <p><strong>Phone:</strong> {{ resume.applicant.phone|default:"Not provided" }}</p>
+        <p><strong>Uploaded:</strong> {{ resume.uploaded_at|date:"F d, Y" }}</p>
+    </div>
+
+    {% if resume.skills %}
+    <div class="section skills-section">
+        <h3 class="section-title">Extracted Skills</h3>
+        <div class="skills-list">
+          {% for skill in skills_list %}
+            <span class="skill-tag">{{ skill }}</span>
+          {% empty %}
+            <span class="no-skills">No skills listed</span>
+          {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="section resume-text-section">
+        <h3 class="section-title">Resume Content</h3>
+        <div class="resume-text-box">
+            <pre>{{ resume.extracted_text|default:"Text extraction pending..." }}</pre>
+        </div>
+    </div>
+
+    <div class="section match-results">
+        <h3 class="section-title">Match Results</h3>
+        {% if match_results %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Job</th>
+                        <th>Company</th>
+                        <th>Match Score</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for match in match_results %}
+                    <tr>
+                        <td><a href="{% url 'view_job' match.job.id %}">{{ match.job.title }}</a></td>
+                        <td>{{ match.job.recruiter.company_name }}</td>
+                        <td>
+                            <span class="score-badge 
+                                {% if match.overall_score >= 0.7 %}score-high
+                                {% elif match.overall_score >= 0.4 %}score-medium
+                                {% else %}score-low{% endif %}">
+                                {{ match.overall_score|floatformat:2 }}
+                            </span>
+                        </td>
+                        <td>{{ match.created_at|date:"M d, Y" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="no-matches-message">
+                <p>No job matches yet.</p>
+                <p class="form-subtext">Your resume will be matched with job postings by recruiters. Check back later!</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="section action-section">
+        <a href="{% url 'delete_resume' resume.id %}" class="btn btn-danger">Delete Resume</a>
+    </div>
+</div>
+{% endblock %}

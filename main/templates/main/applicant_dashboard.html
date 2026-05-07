@@ -1,0 +1,81 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Applicant Dashboard - Resume Job Matcher{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h1>My Dashboard</h1>
+    <a href="{% url 'upload_resume' %}" class="btn btn-success">+ Upload Resume</a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">My Resumes</h2>
+    </div>
+
+    {% if resumes %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>File Name</th>
+                    <th>Upload Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for resume in resumes %}
+                <tr>
+                    <td>{{ resume.filename }}</td>
+                    <td>{{ resume.uploaded_at|date:"M d, Y" }}</td>
+                    <td>
+                        <span class="score-badge {% if resume.is_processed %}score-high{% else %}score-medium{% endif %}">
+                            {{ resume.is_processed|yesno:"Processed,Pending" }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'view_resume' resume.id %}" class="btn btn-primary btn-small">View</a>
+                        <a href="{% url 'delete_resume' resume.id %}" class="btn btn-danger btn-small">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="card-center">
+            <p class="text-muted">You haven't uploaded any resumes yet.</p>
+            <a href="{% url 'upload_resume' %}" class="btn btn-success">Upload Your First Resume</a>
+        </div>
+    {% endif %}
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Available Jobs</h2>
+    </div>
+
+    {% if available_jobs %}
+        <div class="job-list">
+            {% for job in available_jobs %}
+            <div class="job-card">
+                <h3 class="job-title">{{ job.title }}</h3>
+                <p class="job-meta">{{ job.recruiter.company_name }} • {{ job.location }}</p>
+                <p class="job-description">{{ job.description|truncatewords:20 }}</p>
+                <a href="{% url 'view_job' job.id %}" class="btn btn-primary btn-small">View Details</a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center">
+            <a href="{% url 'browse_jobs' %}" class="btn btn-secondary">View All Jobs</a>
+        </div>
+    {% else %}
+        <p class="text-muted text-center">No jobs available at the moment.</p>
+    {% endif %}
+</div>
+{% endblock %}

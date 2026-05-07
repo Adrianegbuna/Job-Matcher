@@ -1,0 +1,111 @@
+/* Browse Jobs Page */
+.browse-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    color: #2c3e50;
+}
+
+.search-form {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.search-input {
+    width: 300px;
+}
+
+.job-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.job-card {
+    padding: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.job-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+.job-title {
+    margin: 0;
+    color: #2c3e50;
+}
+
+.job-meta {
+    color: #666;
+    font-size: 0.875rem;
+}
+
+.job-description {
+    margin: 0.5rem 0;
+    color: #444;
+}
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.skill-tag {
+    background-color: #f0f0f0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+}
+
+.job-card-footer {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.posted-time {
+    color: #666;
+    font-size: 0.875rem;
+}
+
+.no-jobs-card {
+    padding: 3rem;
+}
+
+.job-form-card {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-subtext {
+    color: #666;
+    margin-top: 0.5rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}

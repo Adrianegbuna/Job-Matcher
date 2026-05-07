@@ -1,0 +1,68 @@
+{% extends 'main/base.html' %}
+
+{% load static %}
+
+{% block title %}Welcome - Resume Job Matcher{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="home-hero">
+    <h1>AI-Powered Resume Job Matching</h1>
+    <p>Connect the right candidates with the right opportunities using intelligent matching technology.</p>
+
+    <div class="home-buttons">
+        {% if not user.is_authenticated %}
+            <a href="{% url 'register_recruiter' %}" class="btn btn-primary">I'm a Recruiter</a>
+            <a href="{% url 'register_applicant' %}" class="btn btn-success">I'm a Job Seeker</a>
+        {% else %}
+            <a href="{% url 'dashboard' %}" class="btn btn-primary">Go to Dashboard</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="stats-grid home-stats">
+    <div class="stat-card">
+        <div class="stat-number">{{ total_jobs }}</div>
+        <div class="stat-label">Active Jobs</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ total_recruiters }}</div>
+        <div class="stat-label">Companies</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ total_applicants }}</div>
+        <div class="stat-label">Job Seekers</div>
+    </div>
+</div>
+
+<div class="card home-how-it-works">
+    <div class="card-header">
+        <h2 class="card-title">How It Works</h2>
+    </div>
+    <div class="how-it-works-grid">
+        <div class="how-step">
+            <div class="how-icon">📄</div>
+            <h3>Upload Resume</h3>
+            <p>Job seekers upload their resumes in PDF or Word format.</p>
+        </div>
+        <div class="how-step">
+            <div class="how-icon">📝</div>
+            <h3>Post Jobs</h3>
+            <p>Recruiters create detailed job descriptions with requirements.</p>
+        </div>
+        <div class="how-step">
+            <div class="how-icon">🤖</div>
+            <h3>AI Matching</h3>
+            <p>Our system intelligently matches candidates to jobs based on skills and experience.</p>
+        </div>
+        <div class="how-step">
+            <div class="how-icon">🎯</div>
+            <h3>Best Matches</h3>
+            <p>Recruiters get ranked candidates, applicants find relevant opportunities.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

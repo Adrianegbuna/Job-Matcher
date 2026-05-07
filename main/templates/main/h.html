@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Diagram - AI Resume-Job Matching System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .diagram-wrapper {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            min-height: 50px;
+        }
+
+        .cell {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cell.narrow {
+            flex: 0.5;
+        }
+
+        /* Node Styles */
+        .node {
+            padding: 12px 16px;
+            text-align: center;
+            font-size: 12.5px;
+            line-height: 1.4;
+            font-weight: 500;
+            width: 100%;
+            max-width: 160px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .node.start-end {
+            background: #2c3e50;
+            color: #ffffff;
+            border-radius: 24px;
+            max-width: 100px;
+            font-weight: 600;
+            font-size: 11px;
+            padding: 10px 14px;
+        }
+
+        .node.activity {
+            background: #ffffff;
+            border: 2px solid #3498db;
+            color: #2c3e50;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(52, 152, 219, 0.08);
+        }
+
+        .node.error {
+            background: #fdf2f2;
+            border: 2px solid #e74c3c;
+            color: #c0392b;
+            border-radius: 10px;
+            max-width: 130px;
+            font-size: 11.5px;
+        }
+
+        .node.decision {
+            width: 85px;
+            height: 85px;
+            background: #fffaf3;
+            border: 2px solid #f39c12;
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 4px;
+            box-shadow: 0 2px 6px rgba(243, 156, 18, 0.15);
+        }
+
+        .node.decision span {
+            transform: rotate(-45deg);
+            font-size: 11px;
+            font-weight: 600;
+            color: #d35400;
+            text-align: center;
+            line-height: 1.3;
+            display: block;
+        }
+
+        /* Arrow Styles */
+        .arrow {
+            position: relative;
+        }
+
+        .arrow.down {
+            width: 2px;
+            height: 28px;
+            background: #7f8c8d;
+        }
+
+        .arrow.down::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: -4px;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 7px solid #7f8c8d;
+        }
+
+        .arrow.up {
+            width: 2px;
+            height: 28px;
+            background: #e74c3c;
+        }
+
+        .arrow.up::after {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: -4px;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 7px solid #e74c3c;
+        }
+
+        .arrow.right {
+            width: 28px;
+            height: 2px;
+            background: #7f8c8d;
+        }
+
+        .arrow.right::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 7px solid #7f8c8d;
+        }
+
+        .arrow.left {
+            width: 28px;
+            height: 2px;
+            background: #7f8c8d;
+        }
+
+        .arrow.left::after {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-right: 7px solid #7f8c8d;
+        }
+
+        /* Branch Labels */
+        .branch-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .branch-label.yes {
+            color: #27ae60;
+        }
+
+        .branch-label.no {
+            color: #e74c3c;
+        }
+
+        .retry-label {
+            font-size: 11px;
+            color: #e74c3c;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        /* Swimlane Headers */
+        .lane-header {
+            text-align: center;
+            font-weight: 700;
+            color: #4a5568;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            padding: 10px;
+            background: #edf2f7;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-bottom: 3px solid #cbd5e0;
+        }
+
+        .header-row {
+            margin-bottom: 20px;
+        }
+
+        .header-row .cell {
+            align-items: flex-end;
+        }
+
+        /* Empty cell placeholder */
+        .empty {
+            visibility: hidden;
+        }
+
+        /* Vertical stack helper */
+        .vstack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .diagram-wrapper {
+                padding: 20px;
+            }
+            
+            .node {
+                font-size: 11px;
+                padding: 8px 10px;
+            }
+            
+            .node.decision {
+                width: 65px;
+                height: 65px;
+            }
+            
+            .node.decision span {
+                font-size: 9px;
+            }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+<div class="diagram-wrapper">
+    <h2>Activity Diagram: AI Resume-Job Matching System</h2>
+    
+    <div class="diagram">
+        
+        <!-- Swimlane Headers -->
+        <div class="row header-row">
+            <div class="cell"><div class="lane-header">Applicant</div></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="lane-header">System</div></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="lane-header">Recruiter</div></div>
+        </div>
+
+        <!-- Row 1: Start -->
+        <div class="row">
+            <div class="cell"><div class="node start-end">Start</div></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="node start-end">Start Session</div></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="node start-end">Start</div></div>
+        </div>
+
+        <!-- Row 2: Arrows Down -->
+        <div class="row">
+            <div class="cell"><div class="arrow down"></div></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="arrow down"></div></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="arrow down"></div></div>
+        </div>
+
+        <!-- Row 3: Login -->
+        <div class="row">
+            <div class="cell"><div class="node activity">Register / Login</div></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="node activity">Accept Upload</div></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="node activity">Register / Login</div></div>
+        </div>
+
+        <!-- Row 4: Arrows Down -->
+        <div class="row">
+            <div class="cell"><div class="arrow down"></div></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="arrow down"></div></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="arrow down"></div></div>
+        </div>
+
+        <!-- Row 5: Upload / Receive & Validate / Create Job -->
+        <div class="row">
+            <div class="cell"><div class="node activity">Upload Resume <small>(PDF/DOCX)</small></div></div>
+            <div class="cell narrow"><div class="arrow right"></div></div>
+            <div class="cell"><div class="node activity">Receive & Validate File</div></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="node activity">Create Job Description</div></div>
+        </div>
+
+        <!-- Row 6: Error / Decision / Save Job -->
+        <div class="row">
+            <div class="cell"><div class="node error">Display Error Message</div></div>
+            <div class="cell narrow"><div class="arrow left"></div></div>
+            <div class="cell"><div class="node decision"><span>Valid<br>Format?</span></div></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="node activity">Save Job Posting</div></div>
+        </div>
+
+        <!-- Row 7: Retry / Yes Branch -->
+        <div class="row">
+            <div class="cell">
+                <div class="vstack">
+                    <div class="arrow up"></div>
+                    <span class="retry-label">Retry Upload</span>
+                </div>
+            </div>
+            <div class="cell narrow"></div>
+            <div class="cell">
+                <div class="vstack">
+                    <span class="branch-label yes">Yes</span>
+                    <div class="arrow down"></div>
+                </div>
+            </div>
+            <div class="cell narrow"></div>
+            <div class="cell empty"></div>
+        </div>
+
+        <!-- Row 8: Preprocess -->
+        <div class="row">
+            <div class="cell empty"></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="node activity">Preprocess, Tokenize & Vectorize</div></div>
+            <div class="cell narrow"></div>
+            <div class="cell empty"></div>
+        </div>
+
+        <!-- Row 9: Arrow Down -->
+        <div class="row">
+            <div class="cell empty"></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="arrow down"></div></div>
+            <div class="cell narrow"></div>
+            <div class="cell empty"></div>
+        </div>
+
+        <!-- Row 10: Save to DB / Applicant Confirmation -->
+        <div class="row">
+            <div class="cell"><div class="node activity">Receive Confirmation</div></div>
+            <div class="cell narrow"><div class="arrow left"></div></div>
+            <div class="cell"><div class="node activity">Save to Database</div></div>
+            <div class="cell narrow"></div>
+            <div class="cell empty"></div>
+        </div>
+
+        <!-- Row 11: Arrows Down -->
+        <div class="row">
+            <div class="cell"><div class="arrow down"></div></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="arrow down"></div></div>
+            <div class="cell narrow"></div>
+            <div class="cell empty"></div>
+        </div>
+
+        <!-- Row 12: Applicant End / Compute & Rank / Recruiter View -->
+        <div class="row">
+            <div class="cell"><div class="node start-end">End</div></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="node activity">Compute Similarity & Rank</div></div>
+            <div class="cell narrow"><div class="arrow right"></div></div>
+            <div class="cell"><div class="node activity">View Ranked Results</div></div>
+        </div>
+
+        <!-- Row 13: Recruiter Arrow Down -->
+        <div class="row">
+            <div class="cell empty"></div>
+            <div class="cell narrow"></div>
+            <div class="cell empty"></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="arrow down"></div></div>
+        </div>
+
+        <!-- Row 14: Review & Shortlist -->
+        <div class="row">
+            <div class="cell empty"></div>
+            <div class="cell narrow"></div>
+            <div class="cell empty"></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="node activity">Review & Shortlist</div></div>
+        </div>
+
+        <!-- Row 15: Recruiter Arrow Down -->
+        <div class="row">
+            <div class="cell empty"></div>
+            <div class="cell narrow"></div>
+            <div class="cell empty"></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="arrow down"></div></div>
+        </div>
+
+        <!-- Row 16: Recruiter End -->
+        <div class="row">
+            <div class="cell empty"></div>
+            <div class="cell narrow"></div>
+            <div class="cell empty"></div>
+            <div class="cell narrow"></div>
+            <div class="cell"><div class="node start-end">End</div></div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+/* Shared Sections */
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.form-subtext {
+    color: #666;
+    margin-top: 0.5rem;
+}
+
+.section {
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.skill-tag {
+    background-color: #f0f0f0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+}
+
+.resume-text-box {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 4px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.resume-text-box pre {
+    white-space: pre-wrap;
+    font-family: inherit;
+    margin: 0;
+}
+
+.job-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+/* Action Buttons Sections */
+.action-section {
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 1rem;
+}
+
+.recruiter-actions {
+    flex-wrap: wrap;
+}
+
+/* Matched Candidates Table */
+.no-matches-card {
+    text-align: center;
+    padding: 3rem;
+}
+
+.btn-small {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+.no-matches-message {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px dashed #dee2e6;
+}
+
+.no-matches-message p {
+    margin: 0.5rem 0;
+    color: #6c757d;
+}
+
+.no-matches-message p:first-child {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #495057;
+}

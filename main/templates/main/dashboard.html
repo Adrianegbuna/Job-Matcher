@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+
+{% load static %}
+
+{% block title %}Dashboard - Resume Job Matcher{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="card text-center dashboard-card">
+    <h2 class="dashboard-title">Welcome, {{ user.username }}!</h2>
+
+    <p class="dashboard-text">
+        Your account is being set up. Please contact support if you believe this is an error.
+    </p>
+
+    <a href="{% url 'home' %}" class="btn btn-primary">Go to Home</a>
+</div>
+{% endblock %}

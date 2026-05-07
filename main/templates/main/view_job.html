@@ -1,0 +1,114 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{ job.title }} - Resume Job Matcher{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'main/view.css' %}"/>
+
+<div class="card job-view-card">
+    <div class="card-header">
+        <div class="header-flex">
+            <div>
+                <h2 class="card-title">{{ job.title }}</h2>
+                <p class="form-subtext">{{ job.recruiter.company_name }} • {{ job.department }} • {{ job.location }}</p>
+            </div>
+            <span class="score-badge {% if job.is_active %}score-high{% else %}score-low{% endif %}">
+                {{ job.is_active|yesno:"Active,Inactive" }}
+            </span>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3 class="section-title">Job Description</h3>
+        <p class="pre-line">{{ job.description }}</p>
+    </div>
+
+    <div class="section">
+        <h3 class="section-title">Requirements</h3>
+        <p class="pre-line">{{ job.requirements }}</p>
+    </div>
+
+    <div class="section">
+        <h3 class="section-title">Responsibilities</h3>
+        <p class="pre-line">{{ job.responsibilities }}</p>
+    </div>
+
+    <div class="section skills-section">
+        <h3 class="section-title">Required Skills</h3>
+        <div class="skills-list">
+            {% for skill in job_skills %}
+            <span class="skill">{{ skill }}</span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="section job-meta-grid">
+        <div><strong>Experience Required:</strong> {{ job.required_experience|default:"Not specified" }}</div>
+        <div><strong>Education:</strong> {{ job.education_level|default:"Not specified" }}</div>
+        <div><strong>Employment Type:</strong> {{ job.get_employment_type_display }}</div>
+        <div><strong>Salary Range:</strong> {{ job.salary_range|default:"Not disclosed" }}</div>
+    </div>
+
+    {% if is_recruiter %}
+    <div class="section action-section recruiter-actions">
+        <a href="{% url 'edit_job' job.id %}" class="btn btn-primary">Edit Job</a>
+        <a href="{% url 'toggle_job_status' job.id %}" class="btn btn-warning">{{ job.is_active|yesno:"Deactivate,Activate" }}</a>
+        <a href="{% url 'delete_job' job.id %}" class="btn btn-danger">Delete</a>
+        <a href="{% url 'match_candidates' job.id %}" class="btn btn-success">Run Matching</a>
+    </div>
+    {% endif %}
+
+    {% if is_recruiter and matches %}
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Matched Candidates ({{ matches.count }})</h2>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Candidate</th>
+                    <th>Overall Score</th>
+                    <th>Similarity</th>
+                    <th>Skills Match</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for match in matches %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                        <strong>{{ match.resume.applicant.user.get_full_name }}</strong><br>
+                        <small class="form-subtext">{{ match.resume.applicant.user.email }}</small>
+                    </td>
+                    <td>
+                        <span class="score-badge 
+                            {% if match.overall_score >= 0.7 %}score-high
+                            {% elif match.overall_score >= 0.4 %}score-medium
+                            {% else %}score-low{% endif %}">
+                            {{ match.overall_score|floatformat:2 }}
+                        </span>
+                    </td>
+                    <td>{{ match.similarity_score|floatformat:2 }}</td>
+                    <td>{{ match.skills_match_score|floatformat:2 }}</td>
+                    <td>
+                        <a href="{% url 'view_resume' match.resume.id %}" class="btn btn-primary btn-small">View Resume</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% elif is_recruiter %}
+    <div class="card no-matches-card">
+        <p>No matches yet. Run the matching algorithm to find candidates.</p>
+        <form action="{% url 'match_candidates' job.id %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Match Candidates</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

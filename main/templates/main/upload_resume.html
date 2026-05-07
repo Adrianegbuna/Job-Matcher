@@ -1,0 +1,44 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Upload Resume - Resume Job Matcher{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/upload.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="card upload-card">
+    <div class="card-header">
+        <h2 class="card-title">Upload Your Resume</h2>
+        <p class="upload-subtitle">Upload your resume in PDF or Word format</p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Select Resume File</label>
+            {{ form.file }}
+            {{ form.file.errors }}
+            <p class="help-text">Accepted formats: PDF, DOCX, DOC (Max 10MB)</p>
+        </div>
+
+        <div class="upload-tips">
+            <h4>Tips for best results:</h4>
+            <ul>
+                <li>Use standard file formats (PDF preferred)</li>
+                <li>Ensure text is selectable (not scanned images)</li>
+                <li>Include clear sections for skills and experience</li>
+                <li>Use standard headings like "Experience", "Education", "Skills"</li>
+            </ul>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success">Upload Resume</button>
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Delete Resume - Resume Job Matcher{% endblock %}
+
+{% block content %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'main/delete.css' %}"/>
+<div class="card delete-card">
+    <div class="card-header">
+        <h2 class="card-title">Delete Resume</h2>
+    </div>
+
+    <p class="delete-text">
+        Are you sure you want to delete your resume "<strong>{{ resume.filename }}</strong>"?
+    </p>
+
+    <p class="delete-warning">
+        This action cannot be undone.
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="delete-actions">
+            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

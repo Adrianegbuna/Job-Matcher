@@ -1,0 +1,32 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Login - Resume Job Matcher{% endblock %}
+
+{% block content %}
+<div class="card form-card login-card">
+    <div class="card-header text-center">
+        <h2 class="card-title">Welcome Back</h2>
+        <p class="form-subtext">Login to your account</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full">Login</button>
+    </form>
+
+    <div class="text-center form-footer">
+        <p>Don't have an account? <a href="{% url 'register_choice' %}" class="link-primary">Register here</a></p>
+    </div>
+</div>
+{% endblock %}

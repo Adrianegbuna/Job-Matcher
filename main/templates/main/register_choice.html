@@ -1,0 +1,37 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Register - Resume Job Matcher{% endblock %}
+
+{% block content %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'main/register.css' %}"/>
+<div class="card choice-card">
+    <div class="card-header text-center">
+        <h2 class="card-title">Create an Account</h2>
+        <p class="form-subtext">Choose your account type to get started</p>
+    </div>
+
+    <div class="choice-grid">
+        <a href="{% url 'register_recruiter' %}" class="choice-link">
+            <div class="choice-box recruiter">
+                <div class="choice-icon">🏢</div>
+                <h3>I'm a Recruiter</h3>
+                <p>Post jobs and find the best candidates for your company</p>
+            </div>
+        </a>
+
+        <a href="{% url 'register_applicant' %}" class="choice-link">
+            <div class="choice-box applicant">
+                <div class="choice-icon">👤</div>
+                <h3>I'm a Job Seeker</h3>
+                <p>Upload your resume and find your dream job</p>
+            </div>
+        </a>
+    </div>
+
+    <div class="text-center form-footer">
+        <p>Already have an account? <a href="{% url 'login' %}" class="link-primary">Login here</a></p>
+    </div>
+</div>
+{% endblock %}

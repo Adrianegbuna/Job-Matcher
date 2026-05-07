@@ -1,0 +1,21 @@
+/* Shared delete page styling */
+.delete-card {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.delete-text {
+    margin-bottom: 2rem;
+}
+
+.delete-warning {
+    color: #e74c3c;
+    margin-bottom: 2rem;
+}
+
+.delete-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}

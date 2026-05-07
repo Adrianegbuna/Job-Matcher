@@ -1,0 +1,95 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Post New Job - Resume Job Matcher{% endblock %}
+
+{% block content %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'main/job.css' %}"/>
+<div class="card job-form-card">
+    <div class="card-header">
+        <h2 class="card-title">Post a New Job</h2>
+        <p class="form-subtext">Fill in the details below to create a job posting</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Job Title</label>
+            {{ form.title }}
+            {{ form.title.errors }}
+        </div>
+
+        <div class="form-group">
+            <label>Department</label>
+            {{ form.department }}
+            {{ form.department.errors }}
+        </div>
+
+        <div class="form-group">
+            <label>Job Description</label>
+            {{ form.description }}
+            {{ form.description.errors }}
+        </div>
+
+        <div class="form-group">
+            <label>Requirements</label>
+            {{ form.requirements }}
+            {{ form.requirements.errors }}
+        </div>
+
+        <div class="form-group">
+            <label>Responsibilities</label>
+            {{ form.responsibilities }}
+            {{ form.responsibilities.errors }}
+        </div>
+
+        <div class="form-group">
+            <label>Required Skills (comma-separated)</label>
+            {{ form.required_skills }}
+            {{ form.required_skills.errors }}
+            <p class="help-text">Example: Python, Django, SQL, JavaScript, React</p>
+        </div>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Required Experience</label>
+                {{ form.required_experience }}
+                {{ form.required_experience.errors }}
+            </div>
+
+            <div class="form-group">
+                <label>Education Level</label>
+                {{ form.education_level }}
+                {{ form.education_level.errors }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Location</label>
+            {{ form.location }}
+            {{ form.location.errors }}
+        </div>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Employment Type</label>
+                {{ form.employment_type }}
+                {{ form.employment_type.errors }}
+            </div>
+
+            <div class="form-group">
+                <label>Salary Range</label>
+                {{ form.salary_range }}
+                {{ form.salary_range.errors }}
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Post Job</button>
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

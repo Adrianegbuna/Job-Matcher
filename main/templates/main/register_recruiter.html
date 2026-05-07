@@ -1,0 +1,73 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Register as Recruiter - Resume Job Matcher{% endblock %}
+
+{% block content %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'main/register.css' %}"/>
+<div class="card form-card">
+    <div class="card-header text-center">
+        <h2 class="card-title">Register as Recruiter</h2>
+        <p class="form-subtext">Create an account to post jobs and find candidates</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Username</label>
+            {{ form.username }}
+            {{ form.username.errors }}
+        </div>
+
+        <div class="form-group">
+            <label>Email</label>
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+
+        <div class="form-group">
+            <label>Company Name</label>
+            {{ form.company_name }}
+            {{ form.company_name.errors }}
+        </div>
+
+        <div class="form-group">
+            <label>Company Description</label>
+            {{ form.company_description }}
+            {{ form.company_description.errors }}
+        </div>
+
+        <div class="form-group">
+            <label>Industry</label>
+            {{ form.industry }}
+            {{ form.industry.errors }}
+        </div>
+
+        <div class="form-group">
+            <label>Contact Phone</label>
+            {{ form.contact_phone }}
+            {{ form.contact_phone.errors }}
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            {{ form.password1 }}
+            {{ form.password1.errors }}
+        </div>
+
+        <div class="form-group">
+            <label>Confirm Password</label>
+            {{ form.password2 }}
+            {{ form.password2.errors }}
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full">Register</button>
+    </form>
+
+    <div class="text-center form-footer">
+        <p>Already have an account? <a href="{% url 'login' %}" class="link-primary">Login here</a></p>
+    </div>
+</div>
+{% endblock %}
