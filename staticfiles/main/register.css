@@ -1,0 +1,88 @@
+/* Shared form card */
+.form-card {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.choice-card {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Subtext */
+.form-subtext {
+    color: #666;
+    margin-top: 0.5rem;
+}
+
+/* Full width button */
+.btn-full {
+    width: 100%;
+}
+
+/* Footer spacing */
+.form-footer {
+    margin-top: 1.5rem;
+}
+
+/* Links */
+.link-primary {
+    color: #3498db;
+    text-decoration: none;
+}
+
+/* Choice grid */
+.choice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* Choice box */
+.choice-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.choice-box {
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+/* Variants */
+.choice-box.recruiter {
+    border: 2px solid #3498db;
+}
+
+.choice-box.applicant {
+    border: 2px solid #27ae60;
+}
+
+/* Hover effect */
+.choice-box:hover {
+    background-color: #f8f9fa;
+}
+
+/* Icon */
+.choice-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+/* Text styling */
+.choice-box h3 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.choice-box p {
+    color: #666;
+    font-size: 0.875rem;
+}
+
+.login-card {
+    max-width: 400px;
+}

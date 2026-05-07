@@ -1,0 +1,34 @@
+/* Center the upload card */
+.upload-card {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Subtitle under card title */
+.upload-subtitle {
+    color: #666;
+    margin-top: 0.5rem;
+}
+
+/* Tips box */
+.upload-tips {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+}
+
+.upload-tips h4 {
+    margin-bottom: 0.5rem;
+}
+
+.upload-tips ul {
+    margin-left: 1.5rem;
+    color: #666;
+}
+
+/* Form actions (buttons) */
+.form-actions {
+    display: flex;
+    gap: 1rem;
+}
